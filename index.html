@@ -1,0 +1,111 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- para permitir exibição em IOS de acordo com docummentação do a-frame-->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.0.0/dist/mindar-image.prod.js"></script>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.0.0/dist/mindar-image-aframe.prod.js"></script>
+  <!-- Para permitir animação dos objetos 3D-->
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+  <script defer src="assets/scripts/index.js"></script>
+  <link rel="stylesheet" href="assets/style/index.css" />
+</head>
+
+<body>
+  <div class="container">
+    <!-- Image de example-->
+    <div id="example-scanning-overlay" class="hidden">
+      <div class="inner">
+        <img src="./assets/images/target.png" />
+        <div class="scanline"></div>
+      </div>
+    </div>
+
+    <a-scene mindar-image="imageTargetSrc: assets/targets/target.mind; uiScanning: #example-scanning-overlay"
+      color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false"
+      device-orientation-permission-ui="enabled: false" inspector="" keyboard-shortcuts="" screenshot=""
+      aframe-inspector-removed-embedded="undefined">
+      <a-assets>
+        <!-- Icones left e right -->
+        <img id="icon-left" src="./assets/images/left.png" />
+        <img id="icon-right" src="./assets/images/right.png" />
+        <!-- Icones rede social -->
+        <img id="icon-github" src="./assets/images/github.png" />
+        <img id="icon-linkedin" src="./assets/images/linkedin.png" />
+        <!-- Image de exemplo -->
+        <img id="card" src="./assets/images/target.png" />
+        <!-- video -->
+        <video id="video" autoplay="false" loop="true" src="./assets/video/videoBirds.mp4" playsinline=""
+          webkit-playsinline=""></video>
+
+        <!-- 3D Models -->
+        <a-asset-item id="RobotModel" src="./assets/3DModels/robot/scene.gltf"></a-asset-item>
+        <a-asset-item id="DeadbeatModel" src="./assets/3DModels/deadbeat/scene.gltf"></a-asset-item>
+
+      </a-assets>
+      <!-- wasd-controls="" -->
+      <!-- 
+        Fuse: false, não permite iteração com os olhos (ex, se o usuario olhar para um objeto por um longo periodo, haverá um click)
+      
+      -->
+      <a-camera visible="false" position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;"
+        raycaster="far: 10000; objects: .clickable; direction: 0.19234261184056717 0.3117081738945659 -0.93050649325927; origin: 0 1.6 2; useWorldCoordinates: true"
+        camera="" rotation="" data-aframe-inspector-original-camera="">
+      </a-camera>
+
+      <a-entity id="the-target" mindar-image-target="targetIndex: 0">
+        <!-- <a-plane
+            src="#card"
+            position="-0.04833 -0.04121 -0.37684"
+            height="0.552"
+            width="1"
+            rotation=""
+            material=""
+            geometry=""
+          ></a-plane>-->
+        <a-entity visible="" id="buttons">
+          <a-image id="right-button" class="clickable" src="#icon-right" position="0.486 -0.458 -0.043" height="0.15"
+            width="0.15" animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: NaN; dir: alternate"
+            material="" geometry=""></a-image>
+
+          <a-image id="left-button" class="clickable" src="#icon-left" position="-0.486 -0.458 -0.043" height="0.15"
+            width="0.15" animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate"
+            material="" geometry=""></a-image>
+
+          <a-image id="linkedin-button" class="clickable" src="#icon-linkedin" alpha-test="0.5"
+            position="-0.20868 -0.458 -0.043" height="0.15" width="0.15"
+            animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate" material=""
+            geometry=""></a-image>
+
+          <a-image id="github-button" class="clickable" src="#icon-github" position="0.11699 -0.458 -0.043"
+            height="0.15" width="0.15"
+            animation="property: scale; to: 1.2 1.2 1.2; easing: easeInOutQuad; loop: true; dir: alternate" material=""
+            geometry=""></a-image>
+        </a-entity>
+        <!-- Para trocar de conteudo (agrupando entidades dentro de uma entidade)-->
+        <a-entity visible="" id="panel">
+          <a-entity id="item0" visible="false">
+            <a-video id="anchor-video" webkit-playsinline playsinline visible="false" src="#video" width="1"
+              height="0.552" material="" geometry="">
+            </a-video>
+          </a-entity>
+          <a-entity id="item1" visible="false" scale="0.5 0.5 0.5">
+            <a-gltf-model id="RobotModelContent" rotation="0 0 0" position="-0.00013 -0.41939 -0.013"
+              scale="0.4 0.4 0.4" src="#RobotModel" animation-mixer="" gltf-model="./assets/3DModels/robot/scene.gltf">
+            </a-gltf-model>
+          </a-entity>
+          <a-entity id="item2" visible="true" scale="0.9 0.9 0.9">
+            <a-gltf-model id="DeadbeatModelContent" rotation="" position="0.02917 0.41066 0.10678" scale="0.3 0.3 0.3"
+              src="#DeadbeatModel" animation-mixer="" gltf-model="./assets/3DModels/deadbeat/scene.gltf">
+            </a-gltf-model>
+          </a-entity>
+        </a-entity>
+      </a-entity>
+      <div class="a-loader-title" style="display: none"></div>
+    </a-scene>
+  </div>
+</body>
+
+</html>
